@@ -23,6 +23,7 @@ let bird;
 let hasLanded = false;
 let hasBumped = false;
 let cursors;
+let isGameStarted = false;
 
 //load assets
 function preload () {
@@ -74,18 +75,29 @@ function create () {
 }
 
 function update () {
+    //start game
+    if (cursors.space.isDown && !isGameStarted) {
+        isGameStarted = true;
+      }
+
+    //keep the bird up until start
+    if (!isGameStarted) {
+        bird.setVelocityY(-160);
+    }
+
     //jumping
-    if (cursors.up.isDown && !hasLanded) {
+    if (cursors.up.isDown && !hasLanded && !hasBumped) {
         bird.setVelocityY(-160);
     }
 
     //automatic movement
-    if (hasLanded || hasBumped) {
-        bird.body.velocity.x = 0;
-    }
-    else {
+    if (!hasLanded || !hasBumped) {
         bird.body.velocity.x = 50;
-    }
+      }
+      
+      if (hasLanded || hasBumped || !isGameStarted) {
+        bird.body.velocity.x = 0;
+      }
 
     
 }
