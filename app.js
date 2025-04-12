@@ -21,6 +21,7 @@ let config = {
 let game = new Phaser.Game(config);
 let bird;
 let hasLanded = false;
+let hasBumped = false;
 let cursors;
 
 //load assets
@@ -63,10 +64,28 @@ function create () {
     //collisons
     this.physics.add.overlap(bird, road, () => hasLanded = true, null, this);
     this.physics.add.collider(bird, road);
+    this.physics.add.overlap(bird, topColumns, ()=>hasBumped=true,null, this);
+    this.physics.add.overlap(bird, bottomColumns, ()=>hasBumped=true,null, this);
+    this.physics.add.collider(bird, topColumns);
+    this.physics.add.collider(bird, bottomColumns);
 
     //controls
     cursors = this.input.keyboard.createCursorKeys();
 }
 
 function update () {
+    //jumping
+    if (cursors.up.isDown && !hasLanded) {
+        bird.setVelocityY(-160);
+    }
+
+    //automatic movement
+    if (hasLanded || hasBumped) {
+        bird.body.velocity.x = 0;
+    }
+    else {
+        bird.body.velocity.x = 50;
+    }
+
+    
 }
