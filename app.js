@@ -16,8 +16,12 @@ let config = {
       update: update
     }
 };
-// Instance of game
+
+//globals
 let game = new Phaser.Game(config);
+let bird;
+let hasLanded = false;
+let cursors;
 
 //load assets
 function preload () {
@@ -27,10 +31,7 @@ function preload () {
     this.load.spritesheet('bird', 'assets/bird.png', { frameWidth: 64, frameHeight: 96 });
 }
 
-//globals
-let bird;
-let hasLanded = false;
-let cursors;
+
 
 //finalize the preparation phase
 function create () {
